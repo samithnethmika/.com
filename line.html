@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Arduino Line Following car</title>
+</head>
+<body background="circuit-2.jpg">
+<center><u><h1>Arduino Line Following Car</h1></u></center>
+//Samith Nethmika Code's
+<br/>
+<br/>
+
+//ARDUINO LINE FOLLOWING CAR//
+<br/>
+// YOU HAVE TO INSTALL THE AFMOTOR LIBRARY BEFORE UPLOAD THE CODE//
+<br/>
+// GO TO SKETCH >> INCLUDE LIBRARY >> ADD .ZIP LIBRARY >> SELECT AF MOTOR ZIP FILE //
+<br/>
+<br/>
+ 
+//including the libraries
+<br/>
+#include <AFMotor.h>
+	<br/>
+	<br/>
+
+//defining pins and variables
+<br/>
+#define left A0
+<br/>
+#define right A1
+<br/>
+<br/>
+
+//defining motors
+<br/>
+AF_DCMotor motor1(1, MOTOR12_1KHZ); 
+<br/>
+AF_DCMotor motor2(2, MOTOR12_1KHZ);
+<br/>
+AF_DCMotor motor3(3, MOTOR34_1KHZ);
+<br/>
+AF_DCMotor motor4(4, MOTOR34_1KHZ);
+<br/>
+<br/>
+<br/>
+
+
+void setup() {
+	<br/>
+  //declaring pin types
+  <br/>
+  pinMode(left,INPUT);
+  <br/>
+  pinMode(right,INPUT);
+  <br/>
+  //begin serial communication
+  <br/>
+  Serial.begin(9600);
+  <br/>
+  <br/>
+  
+}
+<br/>
+<br/>
+
+void loop(){
+	<br/>
+  //printing values of the sensors to the serial monitor
+  <br/>
+  Serial.println(digitalRead(left));
+  <br/><br/>
+  
+  Serial.println(digitalRead(right));
+  <br/>
+  <br/>
+
+  //line detected by both
+  <br/>
+  if(digitalRead(left)==0 && digitalRead(right)==0){
+  	<br/>
+    //Forward
+    <br/>
+    motor1.run(FORWARD);
+    <br/>
+    motor1.setSpeed(150);
+    <br/>
+    motor2.run(FORWARD);
+    <br/>
+    motor2.setSpeed(150);
+    <br/>
+    motor3.run(FORWARD);
+    <br/>
+    motor3.setSpeed(150);
+    <br/>
+    motor4.run(FORWARD);
+    <br/>
+    motor4.setSpeed(150);
+    <br/>
+    <br/>
+  }
+  <br/>
+  //line detected by left sensor
+  <br/>
+  else if(digitalRead(left)==0 && !analogRead(right)==0){
+  	<br/>
+    //turn left
+    <br/>
+    motor1.run(FORWARD);
+    <br/>
+    motor1.setSpeed(200);
+    <br/>
+    motor2.run(FORWARD);
+    <br/>
+    motor2.setSpeed(200);
+    <br/>
+    motor3.run(BACKWARD);
+    <br/>
+    motor3.setSpeed(200);
+    <br/>
+    motor4.run(BACKWARD);
+    <br/>
+    motor4.setSpeed(200);
+    <br/>
+    <br/>
+    <br/>
+    
+  }
+  <br/>
+  //line detected by right sensor
+  <br/>
+  else if(!digitalRead(left)==0 && digitalRead(right)==0){
+  	<br/>
+    //turn right
+    <br/>
+    motor1.run(BACKWARD);
+    <br/>
+    motor1.setSpeed(200);
+    <br/>
+    motor2.run(BACKWARD);
+    <br/>
+    motor2.setSpeed(200);
+    <br/>
+    motor3.run(FORWARD);
+    <br/>
+    motor3.setSpeed(200);
+    <br/>
+    motor4.run(FORWARD);
+    <br/>
+    motor4.setSpeed(200);
+    <br/>
+    <br/>
+   
+  }
+  <br/>
+  <br/>
+  //line detected by none
+  <br/>
+  else if(!digitalRead(left)==0 && !digitalRead(right)==0){
+  	<br/>
+    //stop
+    <br/>
+    motor1.run(RELEASE);
+    <br/>
+    motor1.setSpeed(0);
+    <br/>
+    motor2.run(RELEASE);
+    <br/>
+    motor2.setSpeed(0);
+    <br/>
+    motor3.run(RELEASE);
+    <br/>
+    motor3.setSpeed(0);
+    <br/>
+    motor4.run(RELEASE);
+    <br/>
+    motor4.setSpeed(0);
+    <br/>
+    <br/>
+   
+  }
+  <br/>
+  
+}
+</body>
+</html>

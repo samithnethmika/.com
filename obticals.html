@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Arduino Obticals Avoiding Car</title>
+</head>
+<body background="obstacle_avoiding_robot_using_arduino_and_l293d_w1RTKGRRac.jpg">
+<center><u><h1>Arduino Obtivals avoiding Car</h1></u></center>
+//Samith Nethmika's coding
+<br/>
+// Arduino Obstacle Avoidance + Voice Control Robot
+<br/>
+// Created by DIY Builder
+<br/>
+//Contact me here https://www.instagram.com/diy.builder/
+<br/>
+//You need to install the AFMotor and NewPing Libraries before uplodaing the sketch
+<br/>
+
+#include <AFMotor.h>
+	<br/>
+#include <NewPing.h>
+	<br/>
+#include<Servo.h>
+	<br/>
+#define TRIGGER_PIN A1
+<br/>
+#define ECHO_PIN A0
+<br/>
+#define MAX_DISTANCE 300
+<br/>
+#define IR A5
+<br/>
+
+AF_DCMotor motor1(1, MOTOR12_1KHZ);
+<br/>
+AF_DCMotor motor2(2, MOTOR12_1KHZ);
+<br/>
+AF_DCMotor motor3(3, MOTOR34_1KHZ);
+<br/>
+AF_DCMotor motor4(4, MOTOR34_1KHZ);
+<br/>
+<br/>
+<br/>
+
+
+NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);
+<br/>
+<br/>
+
+Servo myservo;
+<br/>
+<br/>
+
+String voice;
+<br/>
+<br/>
+
+void setup() {
+	<br/>
+Serial.begin(9600);
+<br/>
+myservo.attach(10);
+<br/>
+myservo.write(90);
+<br/>
+pinMode(IR, INPUT);
+<br/>
+
+}
+<br/>
+<br/>
+
+void loop() {
+	<br/>
+  int distance = sonar.ping_cm();
+  <br/>
+  //int IR1 = digitalRead(IR);
+  <br/>
+  //Serial.println(IR1);
+  <br/>
+  <br/>
+  
+if(Serial.available()>0) {
+	<br/>
+  voice="";
+  <br/>
+  delay(2);
+  <br/>
+  voice = Serial.readString();
+  <br/>
+  delay(2);
+  <br/>
+  Serial.println(voice);
+  <br/>
+  <br/>
+  <br/>
+
+  
+
+if (voice == "turn left") {
+	<br/>
+  left();
+  <br/>
+}else if (voice == "left") {
+	<br/>
+  left();
+  <br/>
+}else if(voice == "turn right") {
+	<br/>
+  right();
+  <br/>
+}else if(voice == "right") {
+	<br/>
+  right();
+  <br/>
+}
+<br/>
+<br/>
+ 
+}
+<br/>
+while(voice == "move forward") {
+	<br/>
+  forward();
+  <br/>
+}
+<br/>
+while(voice == "move backward") {
+	<br/>
+  backward();
+  <br/>
+}
+<br/>
+}
+<br/>
+<br/>
+<br/>
+
+
+
+void forward() {
+	<br/>
+  int distance = sonar.ping_cm();
+  <br/>
+  <br/>
+  
+ if(distance < 10){
+ 	<br/>
+  Stop();
+  voice="";
+  <br/>
+ }else {
+  motor1.setSpeed(255); 
+  <br/>
+  motor1.run(FORWARD); 
+  <br/>
+  motor2.setSpeed(255);
+  <br/>
+  motor2.run(FORWARD);
+  <br/>
+  motor3.setSpeed(255); 
+  <br/>
+  motor3.run(FORWARD); 
+  <br/>
+  motor4.setSpeed(255); 
+  <br/>
+  motor4.run(FORWARD); 
+  <br/>
+  <br/>
+}
+<br/>
+}
+<br/>
+void backward() {
+	<br/>
+  int IR_Sensor = digitalRead(IR);
+  <br/>
+  if(IR_Sensor == 0) {
+  	<br/>
+    Stop();
+    <br/>
+    voice="";
+    <br/>
+  }else {
+  	<br/>
+  motor1.setSpeed(255); 
+  <br/>
+  motor1.run(BACKWARD); 
+  <br/>
+  motor2.setSpeed(255); 
+  <br/>
+  motor2.run(BACKWARD); 
+  <br/>
+  motor3.setSpeed(255); 
+  <br/>
+  motor3.run(BACKWARD);
+  <br/>
+  motor4.setSpeed(255); 
+  <br/>
+  motor4.run(BACKWARD);
+  <br/>
+ 
+ <br/>
+}
+<br/>
+}
+<br/>
+void left() {
+	<br/>
+  myservo.write(180);
+  <br/>
+  delay(500);
+  <br/>
+  myservo.write(90);
+  <br/>
+  delay(500);
+  <br/>
+  motor1.run(BACKWARD);
+  <br/>
+  motor1.setSpeed(255);
+  <br/>
+  motor2.run(BACKWARD);
+  <br/>
+  motor2.setSpeed(255);
+  <br/>
+  motor3.run(FORWARD);
+  <br/>
+  motor3.setSpeed(255);
+  <br/>
+  motor4.run(FORWARD);
+  <br/>
+  motor4.setSpeed(255);
+  <br/>
+  delay(700);
+  <br/>
+  motor1.run(RELEASE);
+  <br/>
+  motor2.run(RELEASE);
+  <br/>
+  motor3.run(RELEASE);
+  <br/>
+  motor4.run(RELEASE);
+  <br/>
+  <br/>
+}
+<br/>
+
+void right() {
+	<br/>
+  myservo.write(0);
+  <br/>
+  delay(500);
+  <br/>
+  myservo.write(90);
+  <br/>
+  delay(500);
+  <br/>
+  motor1.run(FORWARD);
+  <br/>
+  motor1.setSpeed(255);
+  <br/>
+  motor2.run(FORWARD);
+  <br/>
+  motor2.setSpeed(255);
+  <br/>
+  motor3.run(BACKWARD);
+  <br/>
+  motor3.setSpeed(255);
+  <br/>
+  motor4.run(BACKWARD);
+  <br/>
+  motor4.setSpeed(255);
+  <br/>
+  delay(700);
+  <br/>
+  motor1.run(RELEASE);
+  <br/>
+  motor2.run(RELEASE);
+  <br/>
+  motor3.run(RELEASE);
+  <br/>
+  motor4.run(RELEASE);
+  <br/>
+}
+<br/>
+<br/>
+
+void Stop() {
+	<br/>
+  motor1.run(RELEASE);
+  <br/>
+  motor2.run(RELEASE);
+  <br/>
+  motor3.run(RELEASE);
+  <br/>
+  motor4.run(RELEASE);
+  <br/>
+}
+<br/>
+</body>
+</html>

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Blutooth Excarevetor</title>
+</head>
+<body background="diagrm_blutooth_car_rZWd4IWiDQ.png">
+<center><u><h1>Arduino Blutooth Controll Excarevetor</h1></u></center>
+//Samith Nethmika Code's
+
+#include <Servo.h>
+	<br/>
+	<br/>
+
+#define enA 6
+<br/>
+#define in1 8
+<br/>
+#define in2 7
+<br/>
+#define in3 4
+<br/>
+#define in4 3
+<br/>
+#define enB 5
+<br/>
+<br/>
+<br/>
+
+#define servo1 11
+<br/>
+#define servo2 10
+<br/>
+#define servo3 9
+<br/>
+<br/>
+
+Servo mservo1, mservo2, mservo3;
+<br/>
+int pos = 0;
+<br/>
+char Incoming_value = 0;
+<br/>
+char usechar = "0";
+<br/>
+<br/>
+
+void setup() {
+	<br/>
+  Serial.begin(9600);
+  <br/>
+  // put your setup code here, to run once:
+  <br/>
+  <br/>
+
+  pinMode(enA, OUTPUT);
+  <br/>
+  pinMode(in1, OUTPUT);
+  <br/>
+  pinMode(in2, OUTPUT);
+  <br/>
+  pinMode(in3, OUTPUT);
+  <br/>
+  pinMode(in4, OUTPUT);
+  <br/>
+  pinMode(enB, OUTPUT);
+  <br/>
+  <br/>
+  <br/>
+
+  digitalWrite(in1, LOW);
+  <br/>
+  digitalWrite(in2, HIGH); 
+  <br/>  
+  digitalWrite(in3, LOW);
+  <br/>
+  digitalWrite(in4, HIGH); 
+  <br/> 
+  <br/>
+
+  mservo1.attach(servo1); // 90-180
+  <br/>
+  mservo2.attach(servo2); // 10-90
+  <br/>
+  mservo3.attach(servo3); // 70-170
+  <br/>
+  
+  <br/>
+  mservo1.write(90);
+  <br/>
+  mservo2.write(40);
+  <br/>
+  mservo3.write(70);
+  <br/>
+  <br/>
+  <br/>
+}
+<br/>
+int srv1 = 90;
+<br/>
+int srv2 = 40;
+<br/>
+int srv3 = 70;
+
+<br/>
+void loop() 
+<br/>
+{
+	<br/>
+
+<br/>
+  if(Serial.available() > 0)  
+  <br/>
+  {
+  	<br/>
+    Incoming_value = Serial.read();
+    <br/>
+    //Serial.println(Incoming_value);
+    <br/>
+    usechar = Incoming_value;
+    <br/>
+    <br/>
+  }
+  <br/>
+  <br/>
+
+  if(usechar=='0')
+  <br/>
+  {
+  	<br/>
+    analogWrite(enA, 0);
+    <br/>
+    digitalWrite(in1, HIGH);
+    <br/>
+    digitalWrite(in2, LOW);
+    <br/>
+    <br/>
+
+    analogWrite(enB, 0);
+    <br/>
+    digitalWrite(in4, HIGH);
+    <br/>
+    digitalWrite(in3, LOW);
+    <br/>
+    <br/>
+  }
+  <br/>
+  
+  if(usechar=='A')
+  <br/>
+  {
+  	<br/>
+    analogWrite(enA, 120);
+    <br/>
+    digitalWrite(in1, HIGH);
+    <br/>
+    digitalWrite(in2, LOW);
+    <br/>
+
+<br/>
+    analogWrite(enB, 120);
+    <br/>
+    digitalWrite(in4, HIGH);
+    <br/>
+    digitalWrite(in3, LOW);
+    <br/>
+  }
+  <br/>
+  
+  <br/>
+  if(usechar=='B')
+  <br/>
+  {
+  	<br/>
+    analogWrite(enA, 120);
+    <br/>
+    digitalWrite(in1, LOW);
+    <br/>
+    digitalWrite(in2, HIGH);
+    <br/>
+
+<br/>
+    analogWrite(enB, 120);
+    <br/>
+    digitalWrite(in4, LOW);
+    <br/>
+    digitalWrite(in3, HIGH);
+    <br/>
+  }
+  <br/>
+
+<br/>
+  if(usechar=='C')
+  <br/>
+  {
+  	<br/>
+    analogWrite(enA, 120);
+    <br/>
+    digitalWrite(in1, LOW);
+    <br/>
+    digitalWrite(in2, HIGH);
+    <br/>
+
+<br/>
+    analogWrite(enB, 120);
+    <br/>
+    digitalWrite(in4, HIGH);
+    <br/>
+    digitalWrite(in3, LOW);
+    <br/>
+  }
+  <br/>
+
+<br/>
+  if(usechar=='D')
+  <br/>
+  {
+  	<br/>
+    analogWrite(enA, 120);
+    <br/>
+    digitalWrite(in1, HIGH);
+    <br/>
+    digitalWrite(in2, LOW);
+    <br/>
+
+<br/>
+    analogWrite(enB, 120);
+    <br/>
+    digitalWrite(in4, LOW);
+    <br/>
+    digitalWrite(in3, HIGH);
+    <br/>
+  }
+  <br/>
+
+<br/>
+  if(usechar=='G')
+  {
+  	<br/>
+    if(srv1<=180)
+    <br/>
+    {
+    	<br/>
+      srv1++;
+      <br/>
+      mservo1.write(srv1);
+      <br/>
+      
+      <br/>
+      delay(10);
+      <br/>
+     }
+     <br/>
+   }
+   <br/>
+   
+   <br/>
+   if(usechar=='J')
+   <br/>
+   {
+   	<br/>
+    if(srv1>=90)
+    <br/>
+    {
+    	<br/>
+      srv1--;
+      <br/>
+      mservo1.write(srv1);
+      <br/>
+      
+      <br/>
+      delay(10);
+      <br/>
+     }
+     <br/>
+   }
+   <br/>
+
+<br/>
+   //-----
+   <br/>
+
+   if(usechar=='F')
+   <br/>
+  {
+  	<br/>
+    if(srv2<=120)
+    <br/>
+    {
+    	<br/>
+      srv2++;
+      <br/>
+      mservo2.write(srv2);
+      <br/>
+      
+      <br/>
+      delay(10);
+      <br/>
+     }
+     <br/>
+   }
+   <br/>
+   
+   <br/>
+   if(usechar=='I')
+   <br/>
+   {
+   	<br/>
+    if(srv2>=0)
+    <br/>
+    {
+    	<br/>
+      srv2--;
+      <br/>
+      mservo2.write(srv2);
+      <br/>
+      <br/>
+      
+      <br/>
+      delay(10);
+      <br/>
+     }
+     <br/>
+   }
+   <br/>
+
+<br/>
+   //----
+   <br/>
+
+   if(usechar=='E')
+   <br/>
+  {
+  	<br/>
+    if(srv3<=160)
+    <br/>
+    {
+    	<br/>
+      srv3++;
+      <br/>
+      mservo3.write(srv3);
+      <br/>
+      
+      <br/>
+      delay(10);
+      <br/>
+     }
+     <br/>
+   }
+   <br/>
+   
+   if(usechar=='H')
+   <br/>
+   {
+   	<br/>
+    if(srv3>=80)
+    {
+    	<br/>
+      srv3--;
+      <br/>
+      mservo3.write(srv3);
+      <br/>
+      
+      <br/>
+      delay(10);
+      <br/>
+     }
+     <br/>
+   }
+   <br/>
+      
+      <br/>
+}
+<br/>
+</body>
+</html>

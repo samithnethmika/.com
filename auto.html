@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>AutoMatic Tap</title>
+</head>
+<body background="br.jpg">
+<center><u><h1>Arduino Automatic Tap</h1></u></center>
+// B.M.SAMITH NETHMIKA. 2021 Automatic Tap
+<br/>
+#define trig 2
+<br/>
+#define echo 4
+<br/>
+#define tap 8
+<br/>
+<br/>
+
+void setup() {
+	<br/>
+  pinMode(trig, OUTPUT);
+  <br/>
+  pinMode(tap, OUTPUT);
+  <br/>
+  pinMode(echo, INPUT);
+  <br/>
+}
+<br/>
+<br/>
+
+void loop() {
+	<br/>
+	<br/>
+
+  digitalWrite(trig,LOW);
+  <br/>
+  delayMicroseconds(2);
+  <br/>
+  digitalWrite(trig,HIGH);
+  <br/>
+  delayMicroseconds(10);
+  <br/>
+  digitalWrite(trig,LOW);
+  <br/>
+  <br/>
+
+  long t = pulseIn(echo,HIGH);
+  <br/>
+  long cm = t / 29 / 2;
+  <br/>
+  <br/>
+
+  delay(10);
+  <br/>
+  <br/>
+
+  if(cm<30){
+  	<br/>
+    digitalWrite(tap,HIGH);
+    <br/>
+    delay(100);
+    <br/>
+  }
+  <br/>
+  else{
+  	<br/>
+    digitalWrite(tap,LOW);
+    <br/>
+  }
+  <br/>
+}
+<br/>
+<br/>
+</body>
+</html>
